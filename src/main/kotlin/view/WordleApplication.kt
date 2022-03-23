@@ -1,24 +1,23 @@
 package view
 
-import service.RootService
+import service.GameService
 import tools.aqua.bgw.core.BoardGameApplication
 import tools.aqua.bgw.core.BoardGameScene
 
 /**
  *  Scene calls for the game Wordle
  */
-class WordleApplication(val rootService: RootService = RootService()):
-    BoardGameApplication("Wordle"), Refreshable
+class WordleApplication(private val gameService: GameService): BoardGameApplication("Wordle")
 {
     /** StartMenuScene */
     private val startMenu: BoardGameScene = StartMenuScene().apply {
-        startGameButton.onMouseClicked = { rootService.gameService.startNewGame(playerNameField.text,
+        startGameButton.onMouseClicked = { gameService.startNewGame(playerNameField.text,
             languageSelection.selectedItem.toString())
             showGameScene(gameScene) }
         quitButton.onMouseClicked = { exit() }
     }
 
-    private val gameScene: BoardGameScene = GameScene(rootService).apply {
+    private val gameScene: BoardGameScene = GameScene(gameService).apply {
         quitButton.onMouseClicked = { exit() }
     }
 

@@ -7,8 +7,10 @@ import java.io.File
 /**
  *  Class for providing basic game functionalities
  */
-class GameService (private val rootService: RootService): AbstractRefreshingService()
+class GameService
 {
+    /** The currently active game. Can be `null`, if no game has started yet */
+    var currentGame : Wordle? = null
     /** counts the amount of guesses of the player */
     private var solutionLetters = listOf<String>()
 
@@ -19,11 +21,11 @@ class GameService (private val rootService: RootService): AbstractRefreshingServ
     fun startNewGame(player: String, language: String)
     {
         val wordList = getWords(language = language).shuffled()
-        val wordle = Wordle(player = player, solution = wordList[0], words = wordList,
+        val wordle = Wordle(player = player, language = language, solution = wordList[0], words = wordList,
             stats = Stats (gamesPlayed = 0, solvedWords =  0, successRate = 0.0, streak = 0, averageTries = 0.0,
                 favouriteStartWord = ""))
         solutionLetters = wordle.solution.split("").slice(1..5)
-        rootService.currentGame = wordle
+        currentGame = wordle
     }
 
     /**
@@ -32,7 +34,7 @@ class GameService (private val rootService: RootService): AbstractRefreshingServ
      */
     fun evaluateWord(guess: String): MutableList<ColorVisual>
     {
-        val game = rootService.currentGame!!
+        val game = currentGame!!
         print(game.solution)
         if(!game.words.contains(guess)) throw IllegalArgumentException("word is not in list")
 

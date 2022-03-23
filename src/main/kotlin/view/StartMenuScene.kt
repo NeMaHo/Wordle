@@ -8,7 +8,7 @@ import tools.aqua.bgw.visual.*
 /**
  *  Class for providing basic game functionalities
  */
-class StartMenuScene: BoardGameScene(1920, 1080), Refreshable
+class StartMenuScene: BoardGameScene(1920, 1080)
 {
     /** title */
     private val title = Label(width = 1920, height = 1080, posX = 0, posY = -400,

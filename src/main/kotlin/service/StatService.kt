@@ -1,4 +1,3 @@
 package service
 
-class StatService {
-}
+class StatService

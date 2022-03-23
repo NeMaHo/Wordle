@@ -7,20 +7,21 @@ import kotlin.test.*
  */
 class GameServiceTest {
 
-    private val root = RootService()
+    private val gameService = GameService()
 
     /** test if games start correctly */
     @Test
     fun startNewGameTest()
     {
         // no game started yet
-        assertNull(root.currentGame)
+        assertNull(gameService.currentGame)
 
         // start a game
-        root.gameService.startNewGame("Neele", "english")
-        assertNotNull(root.currentGame)
-        val game = root.currentGame!!
+        gameService.startNewGame("Neele", "english")
+        assertNotNull(gameService.currentGame)
+        val game = gameService.currentGame!!
         assertEquals("Neele", game.player)
+        assertEquals("english", game.language)
         assertTrue { game.solution in game.words }
     }
 }

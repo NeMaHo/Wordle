@@ -1,6 +1,6 @@
 package view
 
-import service.RootService
+import service.GameService
 import tools.aqua.bgw.components.uicomponents.*
 import tools.aqua.bgw.core.*
 import tools.aqua.bgw.util.*
@@ -9,14 +9,21 @@ import tools.aqua.bgw.visual.*
 /**
  *  Class for providing basic game functionalities
  */
-class GameScene (private val rootService: RootService): BoardGameScene(1920, 1080), Refreshable
+class GameScene (private val gameService: GameService): BoardGameScene(1920, 1080)
 {
+    /** counter for orientation within the button fields */
     private var counter = 1
+    /** list of up to five letters that make up the new guessed word */
     private var pressedKeyStore = mutableListOf<Button>()
 
-    /** Pressing this button quits the application. */
+    /** pressing this button quits the application */
     val quitButton = Button(width = 150, height = 80, posX = 1760, posY = 10,
         text = "Quit", alignment = Alignment.CENTER, font = Font(size = 35), visual = ColorVisual.RED)
+
+    /** pressing this button initializes a new game */
+    private val restartButton = Button(width = 220, height = 80, posX = 1690, posY = 130,
+        text = "Restart", alignment = Alignment.CENTER, font = Font(size = 35),
+        visual = ColorVisual(164, 225, 220)).apply { onMouseClicked = { refreshAfterRestart() } }
 
     /** fields for the guesses */
     private var oneColOne: Button = Button(width = 90, height = 90, posX = 600, posY = 50,
@@ -216,10 +223,15 @@ class GameScene (private val rootService: RootService): BoardGameScene(1920, 108
         "O" to 0, "P" to 0, "A" to 0, "S" to 0, "D" to 0, "F" to 0, "G" to 0, "H" to 0, "J" to 0, "K" to 0, "L" to 0,
         "Z" to 0, "X" to 0, "C" to 0, "V" to 0, "B" to 0, "N" to 0, "M" to 0)
 
+    /** list of keyboard letter buttons */
+    private val keyButtons = listOf(qButton, wButton, eButton, rButton, tButton, yButton, uButton, iButton, oButton, pButton,
+        aButton, sButton, dButton, fButton, gButton, hButton, jButton, kButton, lButton, zButton, xButton, cButton,
+        vButton, bButton, nButton, mButton)
+
     init
     {
         background = ColorVisual(0, 180, 120)
-        addComponents(quitButton, oneColOne, twoColOne, threeColOne, fourColOne, fiveColOne,
+        addComponents(quitButton, restartButton, oneColOne, twoColOne, threeColOne, fourColOne, fiveColOne,
             oneColTwo, twoColTwo, threeColTwo, fourColTwo, fiveColTwo,
             oneColThree, twoColThree, threeColThree, fourColThree, fiveColThree,
             oneColFour, twoColFour, threeColFour, fourColFour, fiveColFour,
@@ -230,9 +242,7 @@ class GameScene (private val rootService: RootService): BoardGameScene(1920, 108
             zButton, xButton, cButton, vButton, bButton, nButton, mButton, eraseButton, enterButton)
     }
 
-    /**
-     *  refreshes the scene after pressing a letter button
-     */
+    /** refreshes the scene after pressing a letter button */
     private fun refreshAfterPressLetter(letter: String)
     {
         wordLetterButtons[counter - 1].text = letter
@@ -248,11 +258,10 @@ class GameScene (private val rootService: RootService): BoardGameScene(1920, 108
         }
     }
 
-    /**
-     *  refreshes the scene after pressing erase
-     */
+    /** refreshes the scene after pressing erase */
     private fun refreshAfterErase()
     {
+        enterButton.isDisabled = true
         if (counter in listOf(1, 6, 11, 16, 21, 26))
         {
             eraseButton.isDisabled = true
@@ -267,9 +276,7 @@ class GameScene (private val rootService: RootService): BoardGameScene(1920, 108
         if (pressedKeyStore.isNotEmpty()) pressedKeyStore.removeLast()
     }
 
-    /**
-     *  refreshes the scene after pressing enter
-     */
+    /** refreshes the scene after pressing enter */
     private fun refreshAfterEnter()
     {
         // convert the single entered characters to a word
@@ -278,7 +285,7 @@ class GameScene (private val rootService: RootService): BoardGameScene(1920, 108
             wordLetterButtons[counter - 1].text).lowercase()
 
         // result of word's evaluation
-        val evaluateWordResult = rootService.gameService.evaluateWord(guess)
+        val evaluateWordResult = gameService.evaluateWord(guess)
 
         // color guess fields by the result
         for (i in 5 downTo 1)
@@ -301,7 +308,10 @@ class GameScene (private val rootService: RootService): BoardGameScene(1920, 108
         eraseButton.isDisabled = true
 
         if(evaluateWordResult.all { it == ColorVisual.GREEN } || counter > 29 )
+        {
             println("Spiel endet")
+            keyButtons.forEach { it.isDisabled = true }
+        }
         else
         {
             // highlight the next guess fields
@@ -311,6 +321,20 @@ class GameScene (private val rootService: RootService): BoardGameScene(1920, 108
             }
             counter++
         }
+    }
+
+    private fun refreshAfterRestart()
+    {
+        val game = gameService.currentGame!!
+        gameService.startNewGame(game.player, game.language)
+        counter = 1
+        pressedKeyStore = mutableListOf()
+        keyButtons.forEach { it.isDisabled = false }
+        keyButtons.forEach { it.visual = ColorVisual.WHITE }
+        wordLetterButtons.forEach { it.text = "" }
+        wordLetterButtons.forEach { it.visual = ColorVisual.WHITE }
+        enterButton.isDisabled = true
+        eraseButton.isDisabled = true
     }
 
     /** help function to get the value of a ColorVisual */
