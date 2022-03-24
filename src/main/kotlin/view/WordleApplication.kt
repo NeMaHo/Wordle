@@ -3,9 +3,10 @@ package view
 import service.GameService
 import tools.aqua.bgw.core.BoardGameApplication
 import tools.aqua.bgw.core.BoardGameScene
+import tools.aqua.bgw.core.MenuScene
 
 /**
- *  Scene calls for the game Wordle
+ *  This class includes calls for the game Wordle.
  */
 class WordleApplication(private val gameService: GameService): BoardGameApplication("Wordle")
 {
@@ -17,11 +18,21 @@ class WordleApplication(private val gameService: GameService): BoardGameApplicat
         quitButton.onMouseClicked = { exit() }
     }
 
+    /** GameScene */
     private val gameScene: BoardGameScene = GameScene(gameService).apply {
         quitButton.onMouseClicked = { exit() }
+        statsButton.onMouseClicked = { showMenuScene(statScene) }
     }
 
-    init {
+    /** StatScene */
+    private val statScene: MenuScene = StatScene(gameService).apply {
+        quitButton.onMouseClicked = { exit() }
+        backToGameButton.onMouseClicked = { hideMenuScene(0.5)
+            showGameScene(gameScene) }
+    }
+
+    init
+    {
         showGameScene(startMenu)
     }
 }

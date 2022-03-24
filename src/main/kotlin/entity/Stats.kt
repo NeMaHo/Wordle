@@ -7,12 +7,10 @@ package entity
  *  @param successRate: (amount of successfully solved words) / (amount of games played)
  *  @param streak: amount of successfully solved words in a row
  *  @param averageTries: average needed words to solve a word
- *  @param favouriteStartWord: most used starting word
  */
 class Stats (
-    val gamesPlayed: Int,
-    val solvedWords: Int,
-    val successRate: Double,
-    val streak: Int,
-    val averageTries: Double,
-    val favouriteStartWord: String)
+    var gamesPlayed: Int,
+    var solvedWords: Int,
+    var successRate: Double,
+    var streak: Int,
+    var averageTries: Double)

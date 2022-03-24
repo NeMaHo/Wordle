@@ -1,9 +1,8 @@
 package service
 
 import kotlin.test.*
-
 /**
- *  test class for functions of the GameService
+ *  This class tests the functions of the GameService.
  */
 class GameServiceTest {
 
@@ -22,6 +21,7 @@ class GameServiceTest {
         val game = gameService.currentGame!!
         assertEquals("Neele", game.player)
         assertEquals("english", game.language)
+        assertEquals(0, game.tryNum)
         assertTrue { game.solution in game.words }
     }
 }

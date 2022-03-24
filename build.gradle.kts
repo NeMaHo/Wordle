@@ -1,7 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm") version "1.6.10" // or kotlin("multiplatform") or any other kotlin plugin
+    kotlin("plugin.serialization") version "1.6.10"
     application
     jacoco
     id("io.gitlab.arturbosch.detekt") version "1.18.0-RC3"

@@ -9,6 +9,7 @@ import java.io.File
  */
 class GameService
 {
+    val statService = StatService(this)
     /** The currently active game. Can be `null`, if no game has started yet */
     var currentGame : Wordle? = null
     /** counts the amount of guesses of the player */
@@ -22,8 +23,7 @@ class GameService
     {
         val wordList = getWords(language = language).shuffled()
         val wordle = Wordle(player = player, language = language, solution = wordList[0], words = wordList,
-            stats = Stats (gamesPlayed = 0, solvedWords =  0, successRate = 0.0, streak = 0, averageTries = 0.0,
-                favouriteStartWord = ""))
+            stats = Stats (gamesPlayed = 0, solvedWords =  0, successRate = 0.0, streak = 0, averageTries = 0.0))
         solutionLetters = wordle.solution.split("").slice(1..5)
         currentGame = wordle
     }
@@ -54,6 +54,29 @@ class GameService
         return result
     }
 
+    /** updates stats for the specific player */
+    fun endGame(solved: Boolean)
+    {
+        val game = currentGame!!
+        val statFile = File("src/main/resources/${game.player} stats")
+        if (statFile.exists())
+        {
+            val oldStats =  statService.loadStats()
+            game.stats.gamesPlayed = oldStats[0].toInt() + 1
+            game.stats.solvedWords = oldStats[1].toInt() + solved.toInt()
+            game.stats.successRate = game.stats.gamesPlayed.floorDiv(game.stats.solvedWords).toDouble()
+            if (solved)  game.stats.streak = oldStats[3].toInt() + 1
+            else game.stats.streak = 0
+            game.stats.averageTries = oldStats[4].toDouble() + game.tryNum.floorDiv(game.stats.gamesPlayed)
+        }
+        else
+        {
+            game.stats = Stats (gamesPlayed = 1, solvedWords =  solved.toInt(),
+                successRate = solved.toInt().toDouble(), streak = solved.toInt(), averageTries = 0.0)
+        }
+        statService.saveStats()
+    }
+
     /** HELP FUNCTIONS */
 
     /** reads the required document with words */
@@ -61,4 +84,7 @@ class GameService
     {
         return File("src/main/resources/$language five letters words.txt").readLines()
     }
+
+    /** converts boolean values to binary integers */
+    private fun Boolean.toInt() = if (this) 1 else 0
 }

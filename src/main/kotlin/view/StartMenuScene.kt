@@ -6,7 +6,7 @@ import tools.aqua.bgw.util.*
 import tools.aqua.bgw.visual.*
 
 /**
- *  Class for providing basic game functionalities
+ *  This class visualizes the start menu.
  */
 class StartMenuScene: BoardGameScene(1920, 1080)
 {
@@ -20,13 +20,14 @@ class StartMenuScene: BoardGameScene(1920, 1080)
 
     val languageSelection = ComboBox(width = 700, height = 70, posX = 600, posY = 450,
         prompt = "Select language", font = Font(50), items = listOf("english", "german")).apply {
-        onMouseExited = { refreshStartButton() } }
+        onMouseEntered = { refreshStartButton() } }
 
     /** Pressing this button starts a new game. */
     val startGameButton = Button(width = 500, height = 200, posX = 715, posY = 800,
         text = "Start", alignment = Alignment.CENTER, font = Font(size = 70), visual = ColorVisual.ORANGE).apply {
         this.isDisabled = true }
 
+    /** refreshes disability of the startGameButton */
     private fun refreshStartButton()
     {
       startGameButton.isDisabled = playerNameField.text.isBlank() || languageSelection.selectedItem.isNullOrBlank()

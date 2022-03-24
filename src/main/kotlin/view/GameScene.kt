@@ -7,7 +7,7 @@ import tools.aqua.bgw.util.*
 import tools.aqua.bgw.visual.*
 
 /**
- *  Class for providing basic game functionalities
+ *  This class visualizes the game scene.
  */
 class GameScene (private val gameService: GameService): BoardGameScene(1920, 1080)
 {
@@ -24,6 +24,11 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     private val restartButton = Button(width = 220, height = 80, posX = 1690, posY = 130,
         text = "Restart", alignment = Alignment.CENTER, font = Font(size = 35),
         visual = ColorVisual(164, 225, 220)).apply { onMouseClicked = { refreshAfterRestart() } }
+
+    /** pressing this shows the stats screen */
+    val statsButton = Button(width = 180, height = 80, posX = 1730, posY = 240,
+        text = "Stats", alignment = Alignment.CENTER, font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply {
+        this.isDisabled = true }
 
     /** fields for the guesses */
     private var oneColOne: Button = Button(width = 90, height = 90, posX = 600, posY = 50,
@@ -224,14 +229,15 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
         "Z" to 0, "X" to 0, "C" to 0, "V" to 0, "B" to 0, "N" to 0, "M" to 0)
 
     /** list of keyboard letter buttons */
-    private val keyButtons = listOf(qButton, wButton, eButton, rButton, tButton, yButton, uButton, iButton, oButton, pButton,
-        aButton, sButton, dButton, fButton, gButton, hButton, jButton, kButton, lButton, zButton, xButton, cButton,
-        vButton, bButton, nButton, mButton)
+    private val keyButtons = listOf(qButton, wButton, eButton, rButton, tButton, yButton, uButton, iButton, oButton,
+        pButton, aButton, sButton, dButton, fButton, gButton, hButton, jButton, kButton, lButton, zButton, xButton,
+        cButton, vButton, bButton, nButton, mButton)
 
     init
     {
         background = ColorVisual(0, 180, 120)
-        addComponents(quitButton, restartButton, oneColOne, twoColOne, threeColOne, fourColOne, fiveColOne,
+        addComponents(quitButton, restartButton, statsButton,
+            oneColOne, twoColOne, threeColOne, fourColOne, fiveColOne,
             oneColTwo, twoColTwo, threeColTwo, fourColTwo, fiveColTwo,
             oneColThree, twoColThree, threeColThree, fourColThree, fiveColThree,
             oneColFour, twoColFour, threeColFour, fourColFour, fiveColFour,
@@ -309,8 +315,13 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
 
         if(evaluateWordResult.all { it == ColorVisual.GREEN } || counter > 29 )
         {
-            println("Spiel endet")
+            // disable keyboard buttons
             keyButtons.forEach { it.isDisabled = true }
+            // update stats
+            gameService.currentGame!!.tryNum = counter.div(5)
+            gameService.endGame(evaluateWordResult.all { it == ColorVisual.GREEN })
+            statsButton.isDisabled = false
+            statsButton.visual = ColorVisual.PINK
         }
         else
         {
@@ -323,6 +334,7 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
         }
     }
 
+    /** refreshes all buttons and starts a new game */
     private fun refreshAfterRestart()
     {
         val game = gameService.currentGame!!
@@ -335,6 +347,8 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
         wordLetterButtons.forEach { it.visual = ColorVisual.WHITE }
         enterButton.isDisabled = true
         eraseButton.isDisabled = true
+        statsButton.isDisabled = true
+        statsButton.visual = ColorVisual.LIGHT_GRAY
     }
 
     /** help function to get the value of a ColorVisual */
