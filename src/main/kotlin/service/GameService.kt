@@ -9,7 +9,7 @@ import java.io.File
  */
 class GameService
 {
-    val statService = StatService(this)
+    private val statService = StatService(this)
     /** The currently active game. Can be `null`, if no game has started yet */
     var currentGame : Wordle? = null
     /** counts the amount of guesses of the player */
@@ -67,12 +67,14 @@ class GameService
             game.stats.successRate = game.stats.gamesPlayed.floorDiv(game.stats.solvedWords).toDouble()
             if (solved)  game.stats.streak = oldStats[3].toInt() + 1
             else game.stats.streak = 0
-            game.stats.averageTries = oldStats[4].toDouble() + game.tryNum.floorDiv(game.stats.gamesPlayed)
+            game.stats.averageTries = (oldStats[4].toDouble().times(game.stats.gamesPlayed - 1) +
+                    game.stats.averageTries).div(game.stats.gamesPlayed)
         }
         else
         {
             game.stats = Stats (gamesPlayed = 1, solvedWords =  solved.toInt(),
-                successRate = solved.toInt().toDouble(), streak = solved.toInt(), averageTries = 0.0)
+                successRate = solved.toInt().toDouble(), streak = solved.toInt(),
+                averageTries = game.tryNum.toDouble())
         }
         statService.saveStats()
     }

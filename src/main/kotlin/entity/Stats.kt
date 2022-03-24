@@ -6,7 +6,7 @@ package entity
  *  @param solvedWords: amount of successfully solved words
  *  @param successRate: (amount of successfully solved words) / (amount of games played)
  *  @param streak: amount of successfully solved words in a row
- *  @param averageTries: average needed words to solve a word
+ *  @param averageTries: average needed words to solve a word (minimum 1, maximum 7)
  */
 class Stats (
     var gamesPlayed: Int,

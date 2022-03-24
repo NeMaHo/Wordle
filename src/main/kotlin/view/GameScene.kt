@@ -224,7 +224,7 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
             onMouseClicked = { refreshAfterEnter() } }
 
     /** map of letters (needed for right coloring) */
-    private val keyStore = mutableMapOf("Q" to 0, "W" to 0, "E" to 0, "R" to 0, "T" to 0, "Y" to 0, "U" to 0, "I" to 0,
+    private var keyStore = mutableMapOf("Q" to 0, "W" to 0, "E" to 0, "R" to 0, "T" to 0, "Y" to 0, "U" to 0, "I" to 0,
         "O" to 0, "P" to 0, "A" to 0, "S" to 0, "D" to 0, "F" to 0, "G" to 0, "H" to 0, "J" to 0, "K" to 0, "L" to 0,
         "Z" to 0, "X" to 0, "C" to 0, "V" to 0, "B" to 0, "N" to 0, "M" to 0)
 
@@ -343,6 +343,10 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
         pressedKeyStore = mutableListOf()
         keyButtons.forEach { it.isDisabled = false }
         keyButtons.forEach { it.visual = ColorVisual.WHITE }
+        for (key in keyStore.keys)
+        {
+            keyStore[key] = 0
+        }
         wordLetterButtons.forEach { it.text = "" }
         wordLetterButtons.forEach { it.visual = ColorVisual.WHITE }
         enterButton.isDisabled = true
