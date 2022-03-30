@@ -29,26 +29,26 @@ class GameService
     }
 
     /**
-     *  This function compares the guessed word to the current game's solution and returns a string list of colours
+     *  This function compares the guessed word to the current game's solution and returns a list of ColorVisuals
      *  which indicate the match level (green: right position, yellow: wrong position, gray: not included).
      */
     fun evaluateWord(guess: String): MutableList<ColorVisual>
     {
         val game = currentGame!!
-        print(game.solution)
         if(!game.words.contains(guess)) throw IllegalArgumentException("word is not in list")
 
+        // breaks the guessed word into letters
         val currentGuess = guess.split("").slice(1..5)
         val result = generateSequence { ColorVisual.GRAY }.take(5).toMutableList()
 
+        // colors the result list by the match level
         val erg = currentGuess.filter { solutionLetters.contains(it) }
         for (i in 0 until 5)
         {
             if (erg.contains(currentGuess[i]))
             {
                 result[i] = ColorVisual.YELLOW
-                if (currentGuess[i] == solutionLetters[i])
-                    result[i] = ColorVisual.GREEN
+                if (currentGuess[i] == solutionLetters[i]) result[i] = ColorVisual.GREEN
             }
         }
         return result
@@ -65,7 +65,7 @@ class GameService
             game.stats.gamesPlayed = oldStats[0].toInt() + 1
             game.stats.solvedWords = oldStats[1].toInt() + solved.toInt()
             game.stats.successRate = game.stats.solvedWords / game.stats.gamesPlayed.toDouble()
-            if (solved)  game.stats.streak = oldStats[3].toInt() + 1
+            if (solved) game.stats.streak = oldStats[3].toInt() + 1
             else game.stats.streak = 0
             game.stats.averageTries = (oldStats[4].toDouble() * (game.stats.gamesPlayed - 1) + game.tryNum)  /
                     game.stats.gamesPlayed.toDouble()
@@ -77,6 +77,8 @@ class GameService
                 averageTries = game.tryNum.toDouble())
         }
         statService.saveStats()
+        // exception to show the solution in case the player lost
+        if (!solved) throw Exception("solution: ${game.solution}")
     }
 
     /** HELP FUNCTIONS */

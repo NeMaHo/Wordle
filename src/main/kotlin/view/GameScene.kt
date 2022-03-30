@@ -12,28 +12,28 @@ import java.awt.Color
  */
 class GameScene (private val gameService: GameService): BoardGameScene(1920, 1080)
 {
-    /** counter for orientation within the button fields */
-    private var counter = 1
-    /** list of up to five letters that make up the new guessed word */
-    private var pressedKeyStore = mutableListOf<Button>()
-
     /** pressing this button quits the application */
     val quitButton = Button(width = 150, height = 80, posX = 1760, posY = 10,
         text = "Quit", alignment = Alignment.CENTER, font = Font(size = 35), visual = ColorVisual.RED)
 
     /** pressing this button initializes a new game */
-    private val restartButton = Button(width = 220, height = 80, posX = 1690, posY = 130,
+    private val restartButton = Button(width = 220, height = 80, posX = 1690, posY = 120,
         text = "Restart", alignment = Alignment.CENTER, font = Font(size = 35),
         visual = ColorVisual(164, 225, 220)).apply { onMouseClicked = { refreshAfterRestart() } }
 
     /** pressing this shows the stats screen */
-    val statsButton = Button(width = 180, height = 80, posX = 1730, posY = 240,
+    val statsButton = Button(width = 180, height = 80, posX = 1730, posY = 230,
         text = "Stats", alignment = Alignment.CENTER, font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply {
-        this.isDisabled = true }
+            this.isDisabled = true }
 
-    private var errorLabel = Label(width= 300, height = 70, posX = 400, posY = 600,
-        text = "", font = Font(size = 20, color = Color.RED))
+    /** shows an error message if the word list doesn't contain the guessed word */
+    private var errorLabel = Label(width = 400, height = 80, posX = 1100, posY = 400,
+        text = "", alignment = Alignment.CENTER, font = Font(size = 45, color = Color.RED))
 
+    /** counter for orientation within the button fields */
+    private var counter = 1
+    /** list of up to five letters that make up the new guessed word */
+    private var pressedKeyStore = mutableListOf<Button>()
 
     /** fields for the guesses */
     private var oneColOne: Button = Button(width = 90, height = 90, posX = 600, posY = 50,
@@ -229,7 +229,6 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
             onMouseClicked = { try{ refreshAfterEnter() }
                 catch(error: Exception) { errorLabel.text = error.message.toString() } } }
 
-
     /** map of letters (needed for right coloring) */
     private var keyStore = mutableMapOf("Q" to 0, "W" to 0, "E" to 0, "R" to 0, "T" to 0, "Y" to 0, "U" to 0, "I" to 0,
         "O" to 0, "P" to 0, "A" to 0, "S" to 0, "D" to 0, "F" to 0, "G" to 0, "H" to 0, "J" to 0, "K" to 0, "L" to 0,
@@ -243,7 +242,7 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     init
     {
         background = ColorVisual(0, 180, 120)
-        addComponents(quitButton, restartButton, statsButton,
+        addComponents(quitButton, restartButton, statsButton, errorLabel,
             oneColOne, twoColOne, threeColOne, fourColOne, fiveColOne,
             oneColTwo, twoColTwo, threeColTwo, fourColTwo, fiveColTwo,
             oneColThree, twoColThree, threeColThree, fourColThree, fiveColThree,
@@ -258,9 +257,12 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     /** refreshes the scene after pressing a letter button */
     private fun refreshAfterPressLetter(letter: String)
     {
+        // add the letter to the current field
         wordLetterButtons[counter - 1].text = letter
+        // disable buttons or delete error message
         eraseButton.isDisabled = false
-
+        errorLabel.text = ""
+        // enable the enter button if the last filled field is rightmost otherwise increase the counter
         if (counter % 5 == 0) enterButton.isDisabled = false
         else counter++
     }
@@ -268,20 +270,16 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     /** refreshes the scene after pressing erase */
     private fun refreshAfterErase()
     {
+        // disable buttons or delete error message
         enterButton.isDisabled = true
-        if (pressedKeyStore.isNotEmpty()) pressedKeyStore.removeLast()
-
-        if (counter in listOf(1, 6, 11, 16, 21, 26))
-        {
-            eraseButton.isDisabled = true
-            if (wordLetterButtons[counter - 1].text != "")
-                wordLetterButtons[counter - 1].text = ""
-        }
-        else
-        {
-            wordLetterButtons[counter - 1].text = ""
-            counter--
-        }
+        errorLabel.text = ""
+        // decrease the counter if the current field is empty and not leftmost
+        if ((wordLetterButtons[counter - 1].text == "") && (counter !in listOf(1, 6, 11, 16, 21, 26))) counter--
+        // disable the button if the current field is leftmost
+        if (counter in listOf(1, 6, 11, 16, 21, 26)) eraseButton.isDisabled = true
+        // delete field content
+        wordLetterButtons[counter - 1].text = ""
+        pressedKeyStore.removeLast()
     }
 
     /** refreshes the scene after pressing enter */
@@ -291,47 +289,46 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
         val guess = (wordLetterButtons[counter - 5].text + wordLetterButtons[counter - 4].text +
             wordLetterButtons[counter - 3].text + wordLetterButtons[counter - 2].text +
             wordLetterButtons[counter - 1].text).lowercase()
-
         // result of word's evaluation
+        try { gameService.evaluateWord(guess) }
+        catch (error: Exception) { errorLabel.text = error.message.toString() }
+
         val evaluateWordResult = gameService.evaluateWord(guess)
 
         // color guess fields by the result
-        for (i in 5 downTo 1)
-        {
-            wordLetterButtons[counter - i].visual = evaluateWordResult[5 - i]
-        }
+        for (i in 5 downTo 1) wordLetterButtons[counter - i].visual = evaluateWordResult[5 - i]
 
         // color keyboard buttons by the result
         for (i in 0 until 5)
         {
-            if(keyStore[pressedKeyStore[i].text]!! < colorVisualToInt(evaluateWordResult[i]))
+            if (keyStore[pressedKeyStore[i].text]!! < colorVisualToInt(evaluateWordResult[i]))
             {
                 pressedKeyStore[i].visual = evaluateWordResult[i]
                 keyStore[pressedKeyStore[i].text] = colorVisualToInt(evaluateWordResult[i])
             }
         }
-
+        // reset keystore, erase and enter buttons
         pressedKeyStore = mutableListOf()
         enterButton.isDisabled = true
         eraseButton.isDisabled = true
 
-        if(evaluateWordResult.all { it == ColorVisual.GREEN } || counter > 29 )
+        // check if the game ends
+        if (evaluateWordResult.all { it == ColorVisual.GREEN } || counter > 29)
         {
             // disable keyboard buttons
             keyButtons.forEach { it.isDisabled = true }
             // update stats
             gameService.currentGame!!.tryNum = counter / 5
-            gameService.endGame(evaluateWordResult.all { it == ColorVisual.GREEN })
+            // when catching an exception the solution will be printed
+            try { gameService.endGame(evaluateWordResult.all { it == ColorVisual.GREEN }) }
+            catch (error: Exception) { errorLabel.text = error.message.toString() }
             statsButton.isDisabled = false
             statsButton.visual = ColorVisual.PINK
         }
         else
         {
             // highlight the next guess fields
-            for (i in 0 until 5)
-            {
-                wordLetterButtons[counter + i].visual = ColorVisual.WHITE
-            }
+            for (i in 0 until 5) wordLetterButtons[counter + i].visual = ColorVisual.WHITE
             counter++
         }
     }
@@ -339,22 +336,21 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     /** refreshes all buttons and starts a new game */
     private fun refreshAfterRestart()
     {
+        // start a new game and reset all buttons and counters
         val game = gameService.currentGame!!
         gameService.startNewGame(game.player, game.language)
         counter = 1
         pressedKeyStore = mutableListOf()
         keyButtons.forEach { it.isDisabled = false }
         keyButtons.forEach { it.visual = ColorVisual.WHITE }
-        for (key in keyStore.keys)
-        {
-            keyStore[key] = 0
-        }
+        for (key in keyStore.keys) keyStore[key] = 0
         wordLetterButtons.forEach { it.text = "" }
         wordLetterButtons.forEach { it.visual = ColorVisual.WHITE }
         enterButton.isDisabled = true
         eraseButton.isDisabled = true
         statsButton.isDisabled = true
         statsButton.visual = ColorVisual.LIGHT_GRAY
+        errorLabel.text = ""
     }
 
     /** help function to get the value of a ColorVisual */
