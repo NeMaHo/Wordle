@@ -1,15 +1,14 @@
 package view
 
 import service.GameService
-import tools.aqua.bgw.core.BoardGameApplication
-import tools.aqua.bgw.core.BoardGameScene
-import tools.aqua.bgw.core.MenuScene
+import tools.aqua.bgw.core.*
 
 /**
  *  This class includes calls for the game Wordle.
  */
 class WordleApplication(private val gameService: GameService): BoardGameApplication("Wordle")
 {
+    private var stats = listOf("", "", "", "", "")
     /** StartMenuScene */
     private val startMenu: BoardGameScene = StartMenuScene().apply {
         startGameButton.onMouseClicked = { gameService.startNewGame(playerNameField.text,
@@ -21,11 +20,12 @@ class WordleApplication(private val gameService: GameService): BoardGameApplicat
     /** GameScene */
     private val gameScene: BoardGameScene = GameScene(gameService).apply {
         quitButton.onMouseClicked = { exit() }
-        statsButton.onMouseClicked = { showMenuScene(statScene) }
+        statsButton.onMouseClicked = { stats = gameService.statService.loadStats()
+            showGameScene(statScene) }
     }
 
     /** StatScene */
-    private val statScene: MenuScene = StatScene(gameService).apply {
+    private val statScene: BoardGameScene = StatScene(stats).apply {
         quitButton.onMouseClicked = { exit() }
         backToGameButton.onMouseClicked = { hideMenuScene(0.5)
             showGameScene(gameScene) }

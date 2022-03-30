@@ -19,6 +19,8 @@ class StatService (private val gameService: GameService)
     /** loads the text file for the current player */
     fun loadStats(): List<String>
     {
-        return File("src/main/resources/${gameService.currentGame!!.player} stats").readLines()
+        return if (gameService.currentGame != null)
+            File("src/main/resources/${gameService.currentGame!!.player} stats").readLines()
+        else listOf("", "", "", "", "")
     }
 }

@@ -5,6 +5,7 @@ import tools.aqua.bgw.components.uicomponents.*
 import tools.aqua.bgw.core.*
 import tools.aqua.bgw.util.*
 import tools.aqua.bgw.visual.*
+import java.awt.Color
 
 /**
  *  This class visualizes the game scene.
@@ -29,6 +30,10 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     val statsButton = Button(width = 180, height = 80, posX = 1730, posY = 240,
         text = "Stats", alignment = Alignment.CENTER, font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply {
         this.isDisabled = true }
+
+    private var errorLabel = Label(width= 300, height = 70, posX = 400, posY = 600,
+        text = "", font = Font(size = 20, color = Color.RED))
+
 
     /** fields for the guesses */
     private var oneColOne: Button = Button(width = 90, height = 90, posX = 600, posY = 50,
@@ -221,7 +226,9 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     private var enterButton: Button = Button(width = 150, height = 70, posX = 1120, posY = 920,
         text = "Enter", alignment = Alignment.CENTER, font = Font(size = 30),
         visual = ColorVisual(0, 100, 160)).apply { isDisabled = true
-            onMouseClicked = { refreshAfterEnter() } }
+            onMouseClicked = { try{ refreshAfterEnter() }
+                catch(error: Exception) { errorLabel.text = error.message.toString() } } }
+
 
     /** map of letters (needed for right coloring) */
     private var keyStore = mutableMapOf("Q" to 0, "W" to 0, "E" to 0, "R" to 0, "T" to 0, "Y" to 0, "U" to 0, "I" to 0,
@@ -254,20 +261,16 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
         wordLetterButtons[counter - 1].text = letter
         eraseButton.isDisabled = false
 
-        if (counter % 5 == 0)
-        {
-            enterButton.isDisabled = false
-        }
-        else
-        {
-            counter++
-        }
+        if (counter % 5 == 0) enterButton.isDisabled = false
+        else counter++
     }
 
     /** refreshes the scene after pressing erase */
     private fun refreshAfterErase()
     {
         enterButton.isDisabled = true
+        if (pressedKeyStore.isNotEmpty()) pressedKeyStore.removeLast()
+
         if (counter in listOf(1, 6, 11, 16, 21, 26))
         {
             eraseButton.isDisabled = true
@@ -279,7 +282,6 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
             wordLetterButtons[counter - 1].text = ""
             counter--
         }
-        if (pressedKeyStore.isNotEmpty()) pressedKeyStore.removeLast()
     }
 
     /** refreshes the scene after pressing enter */
@@ -318,7 +320,7 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
             // disable keyboard buttons
             keyButtons.forEach { it.isDisabled = true }
             // update stats
-            gameService.currentGame!!.tryNum = counter.div(5)
+            gameService.currentGame!!.tryNum = counter / 5
             gameService.endGame(evaluateWordResult.all { it == ColorVisual.GREEN })
             statsButton.isDisabled = false
             statsButton.visual = ColorVisual.PINK

@@ -9,7 +9,7 @@ import java.io.File
  */
 class GameService
 {
-    private val statService = StatService(this)
+    val statService = StatService(this)
     /** The currently active game. Can be `null`, if no game has started yet */
     var currentGame : Wordle? = null
     /** counts the amount of guesses of the player */
@@ -22,7 +22,7 @@ class GameService
     fun startNewGame(player: String, language: String)
     {
         val wordList = getWords(language = language).shuffled()
-        val wordle = Wordle(player = player, language = language, solution = wordList[0], words = wordList,
+        val wordle = Wordle(player = player, language = language, solution = wordList[0], words = wordList, tryNum = 0,
             stats = Stats (gamesPlayed = 0, solvedWords =  0, successRate = 0.0, streak = 0, averageTries = 0.0))
         solutionLetters = wordle.solution.split("").slice(1..5)
         currentGame = wordle
@@ -61,18 +61,18 @@ class GameService
         val statFile = File("src/main/resources/${game.player} stats")
         if (statFile.exists())
         {
-            val oldStats =  statService.loadStats()
+            val oldStats = statService.loadStats()
             game.stats.gamesPlayed = oldStats[0].toInt() + 1
             game.stats.solvedWords = oldStats[1].toInt() + solved.toInt()
-            game.stats.successRate = game.stats.gamesPlayed.floorDiv(game.stats.solvedWords).toDouble()
+            game.stats.successRate = game.stats.solvedWords / game.stats.gamesPlayed.toDouble()
             if (solved)  game.stats.streak = oldStats[3].toInt() + 1
             else game.stats.streak = 0
-            game.stats.averageTries = (oldStats[4].toDouble().times(game.stats.gamesPlayed - 1) +
-                    game.stats.averageTries).div(game.stats.gamesPlayed)
+            game.stats.averageTries = (oldStats[4].toDouble() * (game.stats.gamesPlayed - 1) + game.tryNum)  /
+                    game.stats.gamesPlayed.toDouble()
         }
         else
         {
-            game.stats = Stats (gamesPlayed = 1, solvedWords =  solved.toInt(),
+            game.stats = Stats(gamesPlayed = 1, solvedWords =  solved.toInt(),
                 successRate = solved.toInt().toDouble(), streak = solved.toInt(),
                 averageTries = game.tryNum.toDouble())
         }
