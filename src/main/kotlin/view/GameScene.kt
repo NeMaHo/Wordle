@@ -275,11 +275,15 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
         errorLabel.text = ""
         // decrease the counter if the current field is empty and not leftmost
         if ((wordLetterButtons[counter - 1].text == "") && (counter !in listOf(1, 6, 11, 16, 21, 26))) counter--
-        // disable the button if the current field is leftmost
-        if (counter in listOf(1, 6, 11, 16, 21, 26)) eraseButton.isDisabled = true
         // delete field content
         wordLetterButtons[counter - 1].text = ""
         pressedKeyStore.removeLast()
+        // disable the button if the current field is leftmost
+        if (counter in listOf(1, 6, 11, 16, 21, 26))
+        {
+            eraseButton.isDisabled = true
+            pressedKeyStore.clear()
+        }
     }
 
     /** refreshes the scene after pressing enter */
