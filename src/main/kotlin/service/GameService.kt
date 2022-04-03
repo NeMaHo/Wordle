@@ -19,10 +19,11 @@ class GameService
      *  initialises a new game
      *  @param language: possible choices are "english" and "german"
      */
-    fun startNewGame(player: String, language: String)
+    fun startNewGame(player: String, language: String, type: String)
     {
-        val wordList = getWords(language = language).shuffled()
-        val wordle = Wordle(player = player, language = language, solution = wordList[0], words = wordList, tryNum = 0,
+        val wordList = getWords(language = language, type = type).shuffled()
+        val wordle = Wordle(player = player, language = language, type = type, solution = wordList[0],
+            words = wordList, tryNum = 0,
             stats = Stats (gamesPlayed = 0, solvedWords =  0, successRate = 0.0, streak = 0, averageTries = 0.0))
         solutionLetters = wordle.solution.split("").slice(1..5)
         currentGame = wordle
@@ -84,9 +85,9 @@ class GameService
     /** HELP FUNCTIONS */
 
     /** reads the required document with words */
-    private fun getWords(language: String):  List<String>
+    private fun getWords(language: String, type: String):  List<String>
     {
-        return File("src/main/resources/$language five letters words.txt").readLines()
+        return File("src/main/resources/$language five $type letters words.txt").readLines()
     }
 
     /** converts boolean values to binary integers */

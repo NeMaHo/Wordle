@@ -12,7 +12,7 @@ class WordleApplication(private val gameService: GameService): BoardGameApplicat
     /** StartMenuScene */
     private val startMenu: BoardGameScene = StartMenuScene().apply {
         startGameButton.onMouseClicked = { gameService.startNewGame(playerNameField.text,
-            languageSelection.selectedItem.toString())
+            languageSelection.selectedItem.toString(), typeSelection.selectedItem.toString())
             showGameScene(gameScene) }
         quitButton.onMouseClicked = { exit() }
     }

@@ -342,7 +342,7 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     {
         // start a new game and reset all buttons and counters
         val game = gameService.currentGame!!
-        gameService.startNewGame(game.player, game.language)
+        gameService.startNewGame(game.player, game.language, game.type)
         counter = 1
         pressedKeyStore = mutableListOf()
         keyButtons.forEach { it.isDisabled = false }

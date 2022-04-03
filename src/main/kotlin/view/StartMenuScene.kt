@@ -22,6 +22,10 @@ class StartMenuScene: BoardGameScene(1920, 1080)
         prompt = "Select language", font = Font(40), items = listOf("english", "german")).apply {
         onMouseEntered = { refreshStartButton() } }
 
+    val typeSelection = ComboBox(width = 700, height = 70, posX = 600, posY = 580,
+        prompt = "Select occurrences of letters ", font = Font(40), items = listOf("unique", "multiple")).apply {
+        onMouseEntered = { refreshStartButton() } }
+
     /** Pressing this button starts a new game. */
     val startGameButton = Button(width = 400, height = 150, posX = 765, posY = 800,
         text = "Start", alignment = Alignment.CENTER, font = Font(size = 75), visual = ColorVisual.ORANGE).apply {
@@ -34,12 +38,13 @@ class StartMenuScene: BoardGameScene(1920, 1080)
     init
     {
         background = ColorVisual(0, 180, 120)
-        addComponents(title, startGameButton, playerNameField, languageSelection, quitButton)
+        addComponents(title, startGameButton, playerNameField, languageSelection, typeSelection, quitButton)
     }
 
     /** refreshes disability of the startGameButton */
     private fun refreshStartButton()
     {
         startGameButton.isDisabled = playerNameField.text.isBlank() || languageSelection.selectedItem.isNullOrBlank()
+                || typeSelection.selectedItem.isNullOrBlank()
     }
 }
