@@ -114,110 +114,84 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     // first line letters
     private var qButton: Button = Button(width = 70, height = 70, posX = 480, posY = 760,
         text = "Q", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var wButton: Button = Button(width = 70, height = 70, posX = 560, posY = 760,
         text = "W", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var eButton: Button = Button(width = 70, height = 70, posX = 640, posY = 760,
         text = "E", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var rButton: Button = Button(width = 70, height = 70, posX = 720, posY = 760,
         text = "R", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var tButton: Button = Button(width = 70, height = 70, posX = 800, posY = 760,
         text = "T", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var yButton: Button = Button(width = 70, height = 70, posX = 880, posY = 760,
         text = "Y", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var uButton: Button = Button(width = 70, height = 70, posX = 960, posY = 760,
         text = "U", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var iButton: Button = Button(width = 70, height = 70, posX = 1040, posY = 760,
         text = "I", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var oButton: Button = Button(width = 70, height = 70, posX = 1120, posY = 760,
         text = "O", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var pButton: Button = Button(width = 70, height = 70, posX = 1200, posY = 760,
         text = "P", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     // second line letters
     private var aButton: Button = Button(width = 70, height = 70, posX = 520, posY = 840,
         text = "A", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var sButton: Button = Button(width = 70, height = 70, posX = 600, posY = 840,
         text = "S", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var dButton: Button = Button(width = 70, height = 70, posX = 680, posY = 840,
         text = "D", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var fButton: Button = Button(width = 70, height = 70, posX = 760, posY = 840,
         text = "F", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var gButton: Button = Button(width = 70, height = 70, posX = 840, posY = 840,
         text = "G", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var hButton: Button = Button(width = 70, height = 70, posX = 920, posY = 840,
         text = "H", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var jButton: Button = Button(width = 70, height = 70, posX = 1000, posY = 840,
         text = "J", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var kButton: Button = Button(width = 70, height = 70, posX = 1080, posY = 840,
         text = "K", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var lButton: Button = Button(width = 70, height = 70, posX = 1160, posY = 840,
         text = "L", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     // third line letters
     private var zButton: Button = Button(width = 70, height = 70, posX = 560, posY = 920,
         text = "Z", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var xButton: Button = Button(width = 70, height = 70, posX = 640, posY = 920,
         text = "X", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var cButton: Button = Button(width = 70, height = 70, posX = 720, posY = 920,
         text = "C", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var vButton: Button = Button(width = 70, height = 70, posX = 800, posY = 920,
         text = "V", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var bButton: Button = Button(width = 70, height = 70, posX = 880, posY = 920,
         text = "B", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var nButton: Button = Button(width = 70, height = 70, posX = 960, posY = 920,
         text = "N", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     private var mButton: Button = Button(width = 70, height = 70, posX = 1040, posY = 920,
         text = "M", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
-            onMouseClicked = { refreshAfterPressLetter(this.text)
-            pressedKeyStore.add(this) } }
+            onMouseClicked = { refreshAfterPressLetter(this) } }
     // erase and enter
     private var eraseButton: Button = Button(width = 150, height = 70, posX = 1240, posY = 840,
         text = "Erase", alignment = Alignment.CENTER, font = Font(size = 30),
@@ -255,10 +229,13 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     }
 
     /** refreshes the scene after pressing a letter button */
-    private fun refreshAfterPressLetter(letter: String)
+    private fun refreshAfterPressLetter(button: Button)
     {
+        // update store of pressed keys
+        pressedKeyStore.add(button)
+        if (pressedKeyStore.size > 5) pressedKeyStore[4] = button
         // add the letter to the current field
-        wordLetterButtons[counter - 1].text = letter
+        wordLetterButtons[counter - 1].text = button.text
         // disable buttons or delete error message
         eraseButton.isDisabled = false
         errorLabel.text = ""

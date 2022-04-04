@@ -16,11 +16,12 @@ class GameServiceTest {
         assertNull(gameService.currentGame)
 
         // start a game
-        gameService.startNewGame("Neele", "english")
+        gameService.startNewGame("Neele", "english", "multiple")
         assertNotNull(gameService.currentGame)
         val game = gameService.currentGame!!
         assertEquals("Neele", game.player)
         assertEquals("english", game.language)
+        assertEquals("multiple", game.type)
         assertEquals(0, game.tryNum)
         assertTrue { game.solution in game.words }
     }
