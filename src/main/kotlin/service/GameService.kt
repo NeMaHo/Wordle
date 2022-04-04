@@ -3,6 +3,7 @@ package service
 import entity.*
 import tools.aqua.bgw.visual.ColorVisual
 import java.io.File
+import java.math.RoundingMode
 
 /**
  *  Class for providing basic game functionalities
@@ -65,11 +66,13 @@ class GameService
             val oldStats = statService.loadStats()
             game.stats.gamesPlayed = oldStats[0].toInt() + 1
             game.stats.solvedWords = oldStats[1].toInt() + solved.toInt()
-            game.stats.successRate = game.stats.solvedWords / game.stats.gamesPlayed.toDouble()
+            game.stats.successRate = (game.stats.solvedWords / game.stats.gamesPlayed.toDouble()).
+                toBigDecimal().setScale(2, RoundingMode.HALF_UP).toDouble()
             if (solved) game.stats.streak = oldStats[3].toInt() + 1
             else game.stats.streak = 0
-            game.stats.averageTries = (oldStats[4].toDouble() * (game.stats.gamesPlayed - 1) + game.tryNum)  /
-                    game.stats.gamesPlayed.toDouble()
+            game.stats.averageTries = ((oldStats[4].toDouble() * (game.stats.gamesPlayed - 1) + game.tryNum)  /
+                    game.stats.gamesPlayed.toDouble()).
+                toBigDecimal().setScale(2, RoundingMode.HALF_UP).toDouble()
         }
         else
         {

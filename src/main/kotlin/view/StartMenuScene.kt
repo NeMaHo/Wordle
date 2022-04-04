@@ -8,26 +8,26 @@ import tools.aqua.bgw.visual.*
 /**
  *  This class visualizes the start menu.
  */
-class StartMenuScene: BoardGameScene(1920, 1080)
+class StartMenuScene: BoardGameScene(900, 800)
 {
     /** title */
-    private val title = Label(width = 1920, height = 1080, posX = 0, posY = -400,
+    private val title = Label(width = 900, height = 90, posX = 0, posY = 50,
         text = "Wordle - menu", alignment = Alignment.CENTER, font = Font(size = 80))
 
     /** text for the name of the player */
-    var playerNameField: TextField = TextField(width = 700, height = 80, posX = 600, posY = 320,
+    var playerNameField: TextField = TextField(width = 600, height = 70, posX = 150, posY = 200,
         prompt = "Enter name", font = Font(size = 25)).apply { onKeyTyped = { refreshStartButton() } }
 
-    val languageSelection = ComboBox(width = 700, height = 70, posX = 600, posY = 450,
+    val languageSelection = ComboBox(width = 600, height = 70, posX = 150, posY = 320,
         prompt = "Select language", font = Font(40), items = listOf("english", "german")).apply {
         onMouseEntered = { refreshStartButton() } }
 
-    val typeSelection = ComboBox(width = 700, height = 70, posX = 600, posY = 580,
+    val typeSelection = ComboBox(width = 600, height = 70, posX = 150, posY = 440,
         prompt = "Select occurrences of letters ", font = Font(40), items = listOf("unique", "multiple")).apply {
         onMouseEntered = { refreshStartButton() } }
 
     /** Pressing this button starts a new game. */
-    val startGameButton = Button(width = 400, height = 150, posX = 765, posY = 800,
+    val startGameButton = Button(width = 300, height = 130, posX = 300, posY = 650,
         text = "Start", alignment = Alignment.CENTER, font = Font(size = 75), visual = ColorVisual.ORANGE).apply {
         this.isDisabled = true }
 

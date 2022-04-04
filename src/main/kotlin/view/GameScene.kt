@@ -10,24 +10,24 @@ import java.awt.Color
 /**
  *  This class visualizes the game scene.
  */
-class GameScene (private val gameService: GameService): BoardGameScene(1920, 1080)
+class GameScene (private val gameService: GameService): BoardGameScene(1320, 1080)
 {
     /** pressing this button quits the application */
-    val quitButton = Button(width = 150, height = 80, posX = 1760, posY = 10,
+    val quitButton = Button(width = 150, height = 80, posX = 1160, posY = 10,
         text = "Quit", alignment = Alignment.CENTER, font = Font(size = 35), visual = ColorVisual.RED)
 
     /** pressing this button initializes a new game */
-    private val restartButton = Button(width = 220, height = 80, posX = 1690, posY = 120,
+    private val restartButton = Button(width = 220, height = 80, posX = 1090, posY = 120,
         text = "Restart", alignment = Alignment.CENTER, font = Font(size = 35),
         visual = ColorVisual(164, 225, 220)).apply { onMouseClicked = { refreshAfterRestart() } }
 
     /** pressing this shows the stats screen */
-    val statsButton = Button(width = 180, height = 80, posX = 1730, posY = 230,
+    val statsButton = Button(width = 180, height = 80, posX = 1130, posY = 230,
         text = "Stats", alignment = Alignment.CENTER, font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply {
             this.isDisabled = true }
 
     /** shows an error message if the word list doesn't contain the guessed word */
-    private var errorLabel = Label(width = 400, height = 80, posX = 1100, posY = 400,
+    private var errorLabel = Label(width = 400, height = 80, posX = 700, posY = 400,
         text = "", alignment = Alignment.CENTER, font = Font(size = 45, color = Color.RED))
 
     /** counter for orientation within the button fields */
@@ -36,70 +36,70 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     private var pressedKeyStore = mutableListOf<Button>()
 
     /** fields for the guesses */
-    private var oneColOne: Button = Button(width = 90, height = 90, posX = 600, posY = 50,
+    private var oneColOne: Button = Button(width = 90, height = 90, posX = 220, posY = 50,
         font = Font(size = 35)).apply { this.isFocusable = false }
-    private var twoColOne: Button = Button(width = 90, height = 90, posX = 700, posY = 50,
+    private var twoColOne: Button = Button(width = 90, height = 90, posX = 320, posY = 50,
         font = Font(size = 35)).apply { this.isFocusable = false }
-    private var threeColOne: Button = Button(width = 90, height = 90, posX = 800, posY = 50,
+    private var threeColOne: Button = Button(width = 90, height = 90, posX = 420, posY = 50,
         font = Font(size = 35)).apply { this.isFocusable = false }
-    private var fourColOne: Button = Button(width = 90, height = 90, posX = 900, posY = 50,
+    private var fourColOne: Button = Button(width = 90, height = 90, posX = 520, posY = 50,
         font = Font(size = 35)).apply { this.isFocusable = false }
-    private var fiveColOne: Button = Button(width = 90, height = 90, posX = 1000, posY = 50,
+    private var fiveColOne: Button = Button(width = 90, height = 90, posX = 620, posY = 50,
         font = Font(size = 35)).apply { this.isFocusable = false }
     // second line guess
-    private var oneColTwo: Button = Button(width = 90, height = 90, posX = 600, posY = 160,
+    private var oneColTwo: Button = Button(width = 90, height = 90, posX = 220, posY = 160,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var twoColTwo: Button = Button(width = 90, height = 90, posX = 700, posY = 160,
+    private var twoColTwo: Button = Button(width = 90, height = 90, posX = 320, posY = 160,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var threeColTwo: Button = Button(width = 90, height = 90, posX = 800, posY = 160,
+    private var threeColTwo: Button = Button(width = 90, height = 90, posX = 420, posY = 160,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fourColTwo: Button = Button(width = 90, height = 90, posX = 900, posY = 160,
+    private var fourColTwo: Button = Button(width = 90, height = 90, posX = 520, posY = 160,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fiveColTwo: Button = Button(width = 90, height = 90, posX = 1000, posY = 160,
+    private var fiveColTwo: Button = Button(width = 90, height = 90, posX = 620, posY = 160,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
     // third line guess
-    private var oneColThree: Button = Button(width = 90, height = 90, posX = 600, posY = 270,
+    private var oneColThree: Button = Button(width = 90, height = 90, posX = 220, posY = 270,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var twoColThree: Button = Button(width = 90, height = 90, posX = 700, posY = 270,
+    private var twoColThree: Button = Button(width = 90, height = 90, posX = 320, posY = 270,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var threeColThree: Button = Button(width = 90, height = 90, posX = 800, posY = 270,
+    private var threeColThree: Button = Button(width = 90, height = 90, posX = 420, posY = 270,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fourColThree: Button = Button(width = 90, height = 90, posX = 900, posY = 270,
+    private var fourColThree: Button = Button(width = 90, height = 90, posX = 520, posY = 270,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fiveColThree: Button = Button(width = 90, height = 90, posX = 1000, posY = 270,
+    private var fiveColThree: Button = Button(width = 90, height = 90, posX = 620, posY = 270,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
     // forth line guess
-    private var oneColFour: Button = Button(width = 90, height = 90, posX = 600, posY = 380,
+    private var oneColFour: Button = Button(width = 90, height = 90, posX = 220, posY = 380,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var twoColFour: Button = Button(width = 90, height = 90, posX = 700, posY = 380,
+    private var twoColFour: Button = Button(width = 90, height = 90, posX = 320, posY = 380,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var threeColFour: Button = Button(width = 90, height = 90, posX = 800, posY = 380,
+    private var threeColFour: Button = Button(width = 90, height = 90, posX = 420, posY = 380,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fourColFour: Button = Button(width = 90, height = 90, posX = 900, posY = 380,
+    private var fourColFour: Button = Button(width = 90, height = 90, posX = 520, posY = 380,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fiveColFour: Button = Button(width = 90, height = 90, posX = 1000, posY = 380,
+    private var fiveColFour: Button = Button(width = 90, height = 90, posX = 620, posY = 380,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
     // fifth line guess
-    private var oneColFive: Button = Button(width = 90, height = 90, posX = 600, posY = 490,
+    private var oneColFive: Button = Button(width = 90, height = 90, posX = 220, posY = 490,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var twoColFive: Button = Button(width = 90, height = 90, posX = 700, posY = 490,
+    private var twoColFive: Button = Button(width = 90, height = 90, posX = 320, posY = 490,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var threeColFive: Button = Button(width = 90, height = 90, posX = 800, posY = 490,
+    private var threeColFive: Button = Button(width = 90, height = 90, posX = 420, posY = 490,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fourColFive: Button = Button(width = 90, height = 90, posX = 900, posY = 490,
+    private var fourColFive: Button = Button(width = 90, height = 90, posX = 520, posY = 490,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fiveColFive: Button = Button(width = 90, height = 90, posX = 1000, posY = 490,
+    private var fiveColFive: Button = Button(width = 90, height = 90, posX = 620, posY = 490,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
     // sixth line guess
-    private var oneColSix: Button = Button(width = 90, height = 90, posX = 600, posY = 600,
+    private var oneColSix: Button = Button(width = 90, height = 90, posX = 220, posY = 600,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var twoColSix: Button = Button(width = 90, height = 90, posX = 700, posY = 600,
+    private var twoColSix: Button = Button(width = 90, height = 90, posX = 320, posY = 600,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var threeColSix: Button = Button(width = 90, height = 90, posX = 800, posY = 600,
+    private var threeColSix: Button = Button(width = 90, height = 90, posX = 420, posY = 600,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fourColSix: Button = Button(width = 90, height = 90, posX = 900, posY = 600,
+    private var fourColSix: Button = Button(width = 90, height = 90, posX = 520, posY = 600,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
-    private var fiveColSix: Button = Button(width = 90, height = 90, posX = 1000, posY = 600,
+    private var fiveColSix: Button = Button(width = 90, height = 90, posX = 620, posY = 600,
         font = Font(size = 35), visual = ColorVisual.LIGHT_GRAY).apply { this.isFocusable = false }
 
     /** list of the buttons for the fields */
@@ -112,92 +112,92 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
 
     /** keyboard buttons */
     // first line letters
-    private var qButton: Button = Button(width = 70, height = 70, posX = 480, posY = 760,
+    private var qButton: Button = Button(width = 70, height = 70, posX = 100, posY = 760,
         text = "Q", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var wButton: Button = Button(width = 70, height = 70, posX = 560, posY = 760,
+    private var wButton: Button = Button(width = 70, height = 70, posX = 180, posY = 760,
         text = "W", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var eButton: Button = Button(width = 70, height = 70, posX = 640, posY = 760,
+    private var eButton: Button = Button(width = 70, height = 70, posX = 260, posY = 760,
         text = "E", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var rButton: Button = Button(width = 70, height = 70, posX = 720, posY = 760,
+    private var rButton: Button = Button(width = 70, height = 70, posX = 340, posY = 760,
         text = "R", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var tButton: Button = Button(width = 70, height = 70, posX = 800, posY = 760,
+    private var tButton: Button = Button(width = 70, height = 70, posX = 420, posY = 760,
         text = "T", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var yButton: Button = Button(width = 70, height = 70, posX = 880, posY = 760,
+    private var yButton: Button = Button(width = 70, height = 70, posX = 500, posY = 760,
         text = "Y", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var uButton: Button = Button(width = 70, height = 70, posX = 960, posY = 760,
+    private var uButton: Button = Button(width = 70, height = 70, posX = 580, posY = 760,
         text = "U", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var iButton: Button = Button(width = 70, height = 70, posX = 1040, posY = 760,
+    private var iButton: Button = Button(width = 70, height = 70, posX = 660, posY = 760,
         text = "I", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var oButton: Button = Button(width = 70, height = 70, posX = 1120, posY = 760,
+    private var oButton: Button = Button(width = 70, height = 70, posX = 740, posY = 760,
         text = "O", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var pButton: Button = Button(width = 70, height = 70, posX = 1200, posY = 760,
+    private var pButton: Button = Button(width = 70, height = 70, posX = 820, posY = 760,
         text = "P", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
     // second line letters
-    private var aButton: Button = Button(width = 70, height = 70, posX = 520, posY = 840,
+    private var aButton: Button = Button(width = 70, height = 70, posX = 140, posY = 840,
         text = "A", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var sButton: Button = Button(width = 70, height = 70, posX = 600, posY = 840,
+    private var sButton: Button = Button(width = 70, height = 70, posX = 220, posY = 840,
         text = "S", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var dButton: Button = Button(width = 70, height = 70, posX = 680, posY = 840,
+    private var dButton: Button = Button(width = 70, height = 70, posX = 300, posY = 840,
         text = "D", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var fButton: Button = Button(width = 70, height = 70, posX = 760, posY = 840,
+    private var fButton: Button = Button(width = 70, height = 70, posX = 380, posY = 840,
         text = "F", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var gButton: Button = Button(width = 70, height = 70, posX = 840, posY = 840,
+    private var gButton: Button = Button(width = 70, height = 70, posX = 460, posY = 840,
         text = "G", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var hButton: Button = Button(width = 70, height = 70, posX = 920, posY = 840,
+    private var hButton: Button = Button(width = 70, height = 70, posX = 540, posY = 840,
         text = "H", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var jButton: Button = Button(width = 70, height = 70, posX = 1000, posY = 840,
+    private var jButton: Button = Button(width = 70, height = 70, posX = 620, posY = 840,
         text = "J", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var kButton: Button = Button(width = 70, height = 70, posX = 1080, posY = 840,
+    private var kButton: Button = Button(width = 70, height = 70, posX = 700, posY = 840,
         text = "K", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var lButton: Button = Button(width = 70, height = 70, posX = 1160, posY = 840,
+    private var lButton: Button = Button(width = 70, height = 70, posX = 780, posY = 840,
         text = "L", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
     // third line letters
-    private var zButton: Button = Button(width = 70, height = 70, posX = 560, posY = 920,
+    private var zButton: Button = Button(width = 70, height = 70, posX = 180, posY = 920,
         text = "Z", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var xButton: Button = Button(width = 70, height = 70, posX = 640, posY = 920,
+    private var xButton: Button = Button(width = 70, height = 70, posX = 260, posY = 920,
         text = "X", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var cButton: Button = Button(width = 70, height = 70, posX = 720, posY = 920,
+    private var cButton: Button = Button(width = 70, height = 70, posX = 340, posY = 920,
         text = "C", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var vButton: Button = Button(width = 70, height = 70, posX = 800, posY = 920,
+    private var vButton: Button = Button(width = 70, height = 70, posX = 420, posY = 920,
         text = "V", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var bButton: Button = Button(width = 70, height = 70, posX = 880, posY = 920,
+    private var bButton: Button = Button(width = 70, height = 70, posX = 500, posY = 920,
         text = "B", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var nButton: Button = Button(width = 70, height = 70, posX = 960, posY = 920,
+    private var nButton: Button = Button(width = 70, height = 70, posX = 580, posY = 920,
         text = "N", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
-    private var mButton: Button = Button(width = 70, height = 70, posX = 1040, posY = 920,
+    private var mButton: Button = Button(width = 70, height = 70, posX = 660, posY = 920,
         text = "M", alignment = Alignment.CENTER, font = Font(size = 30), visual = ColorVisual.WHITE).apply {
             onMouseClicked = { refreshAfterPressLetter(this) } }
     // erase and enter
-    private var eraseButton: Button = Button(width = 150, height = 70, posX = 1240, posY = 840,
+    private var eraseButton: Button = Button(width = 150, height = 70, posX = 860, posY = 840,
         text = "Erase", alignment = Alignment.CENTER, font = Font(size = 30),
         visual = ColorVisual(255, 215, 250)).apply { this.isDisabled = true
         onMouseClicked = { refreshAfterErase() } }
-    private var enterButton: Button = Button(width = 150, height = 70, posX = 1120, posY = 920,
+    private var enterButton: Button = Button(width = 150, height = 70, posX = 740, posY = 920,
         text = "Enter", alignment = Alignment.CENTER, font = Font(size = 30),
         visual = ColorVisual(0, 100, 160)).apply { isDisabled = true
             onMouseClicked = { try{ refreshAfterEnter() }
@@ -233,7 +233,11 @@ class GameScene (private val gameService: GameService): BoardGameScene(1920, 108
     {
         // update store of pressed keys
         pressedKeyStore.add(button)
-        if (pressedKeyStore.size > 5) pressedKeyStore[4] = button
+        if (pressedKeyStore.size > 5)
+        {
+            pressedKeyStore[4] = button
+            pressedKeyStore.removeLast()
+        }
         // add the letter to the current field
         wordLetterButtons[counter - 1].text = button.text
         // disable buttons or delete error message

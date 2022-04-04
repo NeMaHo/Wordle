@@ -8,7 +8,6 @@ import tools.aqua.bgw.core.*
  */
 class WordleApplication(private val gameService: GameService): BoardGameApplication("Wordle")
 {
-    private var stats = listOf("", "", "", "", "")
     /** StartMenuScene */
     private val startMenu: BoardGameScene = StartMenuScene().apply {
         startGameButton.onMouseClicked = { gameService.startNewGame(playerNameField.text,
@@ -20,12 +19,11 @@ class WordleApplication(private val gameService: GameService): BoardGameApplicat
     /** GameScene */
     private val gameScene: BoardGameScene = GameScene(gameService).apply {
         quitButton.onMouseClicked = { exit() }
-        statsButton.onMouseClicked = { stats = gameService.statService.loadStats()
-            showGameScene(statScene) }
+        statsButton.onMouseClicked = { showMenuScene(statScene) }
     }
 
     /** StatScene */
-    private val statScene: BoardGameScene = StatScene(stats).apply {
+    private var statScene: MenuScene = StatScene(gameService).apply {
         quitButton.onMouseClicked = { exit() }
         backToGameButton.onMouseClicked = { hideMenuScene(0.5)
             showGameScene(gameScene) }
