@@ -18,9 +18,8 @@ Gameplay and coloring are the same as the original game (green: correct guess, y
 
 The player has the option to restart the game at any time with a new solution word. Only completed games are included in the statistics, which cannot be viewed before ending a game.
 
-<img src="README pictures/game scene 1.png" alt="README pictures/game scene 1.png" width="240" height="200"/>
-<img src="README pictures/game scene 2.png" alt="README pictures/game scene 2.png" width="240" height="200"/>
+<img src="README pictures/game scene 1.png" alt="README pictures/game scene 1.png" width="240" height="200"/> <img src="README pictures/game scene 2.png" alt="README pictures/game scene 2.png" width="240" height="200"/>
 
-To be able to see the numbers in the statistics view, the corresponding fields must be clicked on. This is (hopefully) just a temporary way of displaying them.
+To see the numbers of the statistics a label must be clicked on. This is (hopefully) just a temporary way of displaying them.
 
 <img src="README pictures/stats scene.png" alt="README pictures/stats scene.png" width="240" height="200"/>
