@@ -25,7 +25,8 @@ class WordleApplication(private val gameService: GameService): BoardGameApplicat
     /** StatScene */
     private var statScene: MenuScene = StatScene(gameService).apply {
         quitButton.onMouseClicked = { exit() }
-        backToGameButton.onMouseClicked = { hideMenuScene(0.5)
+        backToGameButton.onMouseClicked = { coverStats()
+            hideMenuScene(0.5)
             showGameScene(gameScene) }
     }
 
